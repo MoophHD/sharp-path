@@ -6,7 +6,6 @@ public class Constants : MonoBehaviour {
 	private static Constants _instance;
 	public static Constants instance {
         get {
-			print("instance");
             if (_instance == null) {
 				//finds/creates container for all the global stuff 
                 GameObject go = GameObject.Find("global");

@@ -18,9 +18,14 @@ public class GameController : MonoBehaviour {
     }
     
     void restart() {
+        //play animation
+        //smooth camera reset pos
         myCamera.resetPos();
-        player.resetPos();
+        player.reset();
         spikes.Clear();
+    }
+    void start() {
+        player.firstJump();
     }
 
     void OnEnable() {
@@ -29,6 +34,7 @@ public class GameController : MonoBehaviour {
 			};
         GameActions.onCameraPass += gen;
         GameActions.onRestart += restart;
+        GameActions.onStart += start;
 	}
     
 	void OnDisable() {
@@ -37,5 +43,6 @@ public class GameController : MonoBehaviour {
 			};
         GameActions.onCameraPass -= gen;
         GameActions.onRestart -= restart;
+        GameActions.onStart -= start;
 	}
 }

@@ -15,6 +15,10 @@ public class GameActions : MonoBehaviour {
     public delegate void restartDel();
     public static event restartDel onRestart;
     public static void restart() {onRestart();}
+    
+    public delegate void startDel();
+    public static event startDel onStart;
+    public static void start() {onStart();}
 
     //making sure the script is not duplicated
     private static GameActions gameActionsInstance;

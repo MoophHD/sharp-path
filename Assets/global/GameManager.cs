@@ -6,7 +6,6 @@ public class GameManager : MonoBehaviour {
 	private static GameManager _instance;
 	public static GameManager instance {
         get {
-			print("instance");
             if (_instance == null) {
 				//finds/creates container for all the global stuff 
                 GameObject go = GameObject.Find("global");
