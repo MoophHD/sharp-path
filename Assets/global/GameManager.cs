@@ -54,6 +54,7 @@ public class GameManager : MonoBehaviour {
 				}
 			};
 	}
+	
 	void OnDisable() {
 		GameActions.onPause -= (bool paused) => { 
 			if(paused) {
