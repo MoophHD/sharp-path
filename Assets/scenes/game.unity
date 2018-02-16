@@ -175,7 +175,7 @@ Rigidbody2D:
   m_LinearDrag: 0
   m_AngularDrag: 0.05
   m_GravityScale: 1
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 6200000, guid: bba7e6b1ee3fabf43b284bcb333447a6, type: 2}
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
@@ -450,6 +450,21 @@ Prefab:
       propertyPath: m_LocalScale.y
       value: 1.046719
       objectReference: {fileID: 0}
+    - target: {fileID: 68847448838849666, guid: 2c1b153977d9c59489d137b75d9d82b0,
+        type: 2}
+      propertyPath: m_IsTrigger
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 68847448838849666, guid: 2c1b153977d9c59489d137b75d9d82b0,
+        type: 2}
+      propertyPath: m_Material
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 50404548949059216, guid: 2c1b153977d9c59489d137b75d9d82b0,
+        type: 2}
+      propertyPath: m_Material
+      value: 
+      objectReference: {fileID: 6200000, guid: bba7e6b1ee3fabf43b284bcb333447a6, type: 2}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 2c1b153977d9c59489d137b75d9d82b0, type: 2}
   m_IsPrefabParent: 0
@@ -682,7 +697,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4599778198055558, guid: cdccdfe840937e6438f4538a96aa15ef, type: 2}
       propertyPath: m_LocalPosition.y
-      value: -0.16332547
+      value: 2.31
       objectReference: {fileID: 0}
     - target: {fileID: 4599778198055558, guid: cdccdfe840937e6438f4538a96aa15ef, type: 2}
       propertyPath: m_LocalPosition.z
@@ -777,6 +792,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cameraSpeed: 7.5
   cameraPassDistance: 5
+  screenHeight: 0
+  screenWidth: 0
 --- !u!1001 &773735192
 Prefab:
   m_ObjectHideFlags: 0
@@ -829,6 +846,16 @@ Prefab:
       propertyPath: m_LocalScale.y
       value: 1.0875
       objectReference: {fileID: 0}
+    - target: {fileID: 68847448838849666, guid: 2c1b153977d9c59489d137b75d9d82b0,
+        type: 2}
+      propertyPath: m_Material
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 50404548949059216, guid: 2c1b153977d9c59489d137b75d9d82b0,
+        type: 2}
+      propertyPath: m_Material
+      value: 
+      objectReference: {fileID: 6200000, guid: bba7e6b1ee3fabf43b284bcb333447a6, type: 2}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 2c1b153977d9c59489d137b75d9d82b0, type: 2}
   m_IsPrefabParent: 0
@@ -898,7 +925,7 @@ Rigidbody2D:
   m_LinearDrag: 0
   m_AngularDrag: 0.05
   m_GravityScale: 1
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 6200000, guid: bba7e6b1ee3fabf43b284bcb333447a6, type: 2}
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
@@ -1069,7 +1096,6 @@ Transform:
   m_Children:
   - {fileID: 1973240465}
   - {fileID: 1511573452}
-  - {fileID: 2027660830}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -1085,6 +1111,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   smoothSpeed: 0.3
+  isMoving: 0
 --- !u!114 &1503111447
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1376,7 +1403,7 @@ GameObject:
   - component: {fileID: 2027660831}
   m_Layer: 0
   m_Name: player
-  m_TagString: Untagged
+  m_TagString: player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1465,11 +1492,11 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 2027660826}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 1, y: -3.56, z: 10}
+  m_LocalPosition: {x: 0, y: -3.92, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
-  m_Father: {fileID: 1503111445}
-  m_RootOrder: 2
+  m_Father: {fileID: 0}
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &2027660831
 MonoBehaviour:
@@ -1486,3 +1513,5 @@ MonoBehaviour:
   sideForce: 25
   introUpForce: 10
   introSideForce: 5
+  jumpHeight: 0
+  height: 0

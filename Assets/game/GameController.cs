@@ -9,8 +9,19 @@ public class GameController : MonoBehaviour {
     public GameObject spike;
     public List<GameObject> spikes;
 
+    //gen stuff
+
+    private float playerHeight = 0.5f;
+    private float jumpHeight;
+
+
     void handlePause(bool isPaused) {
         overlay.SetActive(isPaused);
+    }
+
+    void Awake() {
+        playerHeight = player.height;
+        jumpHeight = player.jumpHeight;
     }
 
     void gen() {
@@ -18,13 +29,17 @@ public class GameController : MonoBehaviour {
     }
     
     void restart() {
-        //play animation
+        //play lose animation
         //smooth camera reset pos
-        myCamera.resetPos();
+        myCamera.reset();
+        myCamera.isMoving = false;
+
         player.reset();
         spikes.Clear();
     }
+
     void start() {
+        myCamera.isMoving = true;
         player.firstJump();
     }
 

@@ -8,10 +8,15 @@ public class Player : MonoBehaviour {
     private Transform tr;
     private Rigidbody2D rb;
     private Side side;
+
+    public float downForce = 2.5f;
+
     public float upForce = 7.5f;
     public float sideForce = 25f;
-    public float introUpForce = 10f;
-    public float introSideForce = 1f;
+    public float introUpForce = 7.5f;
+    public float introSideForce = 3f;
+    public float jumpHeight;
+    public float height;
 
   	private enum state {
         Idle,
@@ -25,6 +30,11 @@ public class Player : MonoBehaviour {
         tr = GetComponent<Transform>();
         rb = GetComponent<Rigidbody2D>();
         startPos = tr.position;
+
+        height = GetComponent<CircleCollider2D>().bounds.extents.y;
+        float jumpTime = (Constants.instance.screenWidth - height * 2) / sideForce;
+        jumpHeight = (upForce) * jumpTime;
+        print(jumpHeight);
 
         reset();
     }
@@ -46,9 +56,6 @@ public class Player : MonoBehaviour {
                     break;
                 }
             }
-  
-    
-
         // RaycastHit hit;
         // Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 
@@ -72,7 +79,7 @@ public class Player : MonoBehaviour {
         currentState = state.Sit;
         side.flip();
 
-        rb.velocity = Vector3.zero;
+        rb.velocity = new Vector3(0f, -downForce, 0f);
     }
 
     public void firstJump() {
@@ -91,9 +98,9 @@ public class Player : MonoBehaviour {
         rb.velocity = upwardsVelocity + sideVelocity;
 
     }
-
+    
+    private float lastY = 0f;
     void OnCollisionEnter2D(Collision2D coll) {
-        print("collision");
         string tag = coll.gameObject.tag;
         if (tag == "wall") {
             //is on the right wall while current state is on left etc.
@@ -101,11 +108,11 @@ public class Player : MonoBehaviour {
                 (coll.gameObject.name == "wall_r" && side.side == side.left)
             ) {
                 sit();
+                print(tr.position.y - lastY);
+                lastY = tr.position.y;
             }
         } else if (tag == "pod") {
             GameActions.restart();
         }
     }
-
-    
 }

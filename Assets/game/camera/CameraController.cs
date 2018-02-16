@@ -12,6 +12,8 @@ public class CameraController : MonoBehaviour {
     private float passDistance;
     private float lastGenY;
 
+	public bool isMoving = false;
+
 	void Awake() {
 		tr = GetComponent<Transform>();
         lastGenY = tr.position.y;
@@ -26,11 +28,13 @@ public class CameraController : MonoBehaviour {
     }
 
 	void FixedUpdate () {
-		Vector3 newPos = new Vector3(transform.position.x, transform.position.y + speed, transform.position.z);
-		transform.position = Vector3.Lerp(transform.position, newPos, smoothSpeed * Time.deltaTime);
+		if (isMoving) {
+			Vector3 newPos = new Vector3(transform.position.x, transform.position.y + speed, transform.position.z);
+			transform.position = Vector3.Lerp(transform.position, newPos, smoothSpeed * Time.deltaTime);
+		}
 	}
 
-	public void resetPos() {
+	public void reset() {
 		tr.position = startPos;
 	}
 
