@@ -4,15 +4,9 @@ using UnityEngine;
 
 public class GameController : MonoBehaviour {
     public CameraController myCamera;
+    public SpikeGenerator spikeGenerator;
     public GameObject overlay;
     public Player player;
-    public GameObject spike;
-    public List<GameObject> spikes;
-
-    //gen stuff
-
-    private float playerHeight = 0.5f;
-    private float jumpHeight;
 
 
     void handlePause(bool isPaused) {
@@ -20,13 +14,9 @@ public class GameController : MonoBehaviour {
     }
 
     void Awake() {
-        playerHeight = player.height;
-        jumpHeight = player.jumpHeight;
+        spikeGenerator.playerHeight = player.height;
     }
 
-    void gen() {
-
-    }
     
     void restart() {
         //play lose animation
@@ -35,10 +25,11 @@ public class GameController : MonoBehaviour {
         myCamera.isMoving = false;
 
         player.reset();
-        spikes.Clear();
+        spikeGenerator.reset();
     }
 
     void start() {
+        spikeGenerator.onStart();
         myCamera.isMoving = true;
         player.firstJump();
     }
@@ -47,7 +38,6 @@ public class GameController : MonoBehaviour {
 		GameActions.onPause += (bool paused) => { 
                 handlePause(paused);
 			};
-        GameActions.onCameraPass += gen;
         GameActions.onRestart += restart;
         GameActions.onStart += start;
 	}
@@ -56,7 +46,6 @@ public class GameController : MonoBehaviour {
 		GameActions.onPause += (bool paused) => { 
                 handlePause(paused);
 			};
-        GameActions.onCameraPass -= gen;
         GameActions.onRestart -= restart;
         GameActions.onStart -= start;
 	}

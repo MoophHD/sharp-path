@@ -26,7 +26,7 @@ public class Constants : MonoBehaviour {
 
 
 	public float cameraSpeed = 12.5f;
-	public float cameraPassDistance = 5f;
+	public float spikeSideOffset = 2.7f;
 	public float screenHeight;
 	public float screenWidth;
 

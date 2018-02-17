@@ -34,7 +34,6 @@ public class Player : MonoBehaviour {
         height = GetComponent<CircleCollider2D>().bounds.extents.y;
         float jumpTime = (Constants.instance.screenWidth - height * 2) / sideForce;
         jumpHeight = (upForce) * jumpTime;
-        print(jumpHeight);
 
         reset();
     }
@@ -99,7 +98,7 @@ public class Player : MonoBehaviour {
 
     }
     
-    private float lastY = 0f;
+    // private float lastY = 0f;
     void OnCollisionEnter2D(Collision2D coll) {
         string tag = coll.gameObject.tag;
         if (tag == "wall") {
@@ -108,8 +107,6 @@ public class Player : MonoBehaviour {
                 (coll.gameObject.name == "wall_r" && side.side == side.left)
             ) {
                 sit();
-                print(tr.position.y - lastY);
-                lastY = tr.position.y;
             }
         } else if (tag == "pod") {
             GameActions.restart();

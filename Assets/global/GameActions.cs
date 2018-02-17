@@ -8,10 +8,6 @@ public class GameActions : MonoBehaviour {
     public static event pauseDel onPause;
     public static void pause(bool paused) {onPause(paused);}
 
-    public delegate void cameraPassDel();
-    public static event cameraPassDel onCameraPass;
-    public static void cameraPass() {onCameraPass();}
-
     public delegate void restartDel();
     public static event restartDel onRestart;
     public static void restart() {onRestart();}
