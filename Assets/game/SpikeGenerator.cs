@@ -14,11 +14,6 @@ public class SpikeGenerator : MonoBehaviour {
     private float lastGenY;
     public Side side;
 
-
-    //markovs chains
-
-
-    private Matrix4x4 matrix;
     void Awake() {
         side = new Side();
         reset();
@@ -43,11 +38,6 @@ public class SpikeGenerator : MonoBehaviour {
                 spikes.RemoveAt(0);
             }
     }
-
-    void Update() {
-        // print(lastGenY);
-    }
-
     void addSpike(float y) {
         bool isLeft = side.side == side.left;
 

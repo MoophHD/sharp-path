@@ -1,14 +1,19 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class GameController : MonoBehaviour {
     public CameraController myCamera;
     public SpikeGenerator spikeGenerator;
     public GameObject overlay;
     public Player player;
-
-
+    public CurrentScore currentScore;
+    private float scoreDelta = 0.5f;
+    //score per scoreDelta
+    void addScore() {
+        currentScore.addDelta();
+    }
     void handlePause(bool isPaused) {
         overlay.SetActive(isPaused);
     }
@@ -17,8 +22,9 @@ public class GameController : MonoBehaviour {
         spikeGenerator.playerHeight = player.height;
     }
 
-    
     void restart() {
+        CancelInvoke(); 
+        currentScore.Clear();     
         //play lose animation
         //smooth camera reset pos
         myCamera.reset();
@@ -29,6 +35,8 @@ public class GameController : MonoBehaviour {
     }
 
     void start() {
+        InvokeRepeating("addScore", 0f, scoreDelta);
+
         spikeGenerator.onStart();
         myCamera.isMoving = true;
         player.firstJump();
