@@ -9,6 +9,8 @@ public class GameController : MonoBehaviour {
     public GameObject overlay;
     public Player player;
     public CurrentScore currentScore;
+    public static int closeAreas = 0;
+    
     private float scoreDelta = 0.5f;
     //score per scoreDelta
     void addScore() {
@@ -23,12 +25,13 @@ public class GameController : MonoBehaviour {
     }
 
     void restart() {
+        closeAreas = 0;
         CancelInvoke(); 
         currentScore.Clear();     
         //play lose animation
         //smooth camera reset pos
         myCamera.reset();
-        myCamera.isMoving = false;
+        myCamera.isMoving =     false;
 
         player.reset();
         spikeGenerator.reset();

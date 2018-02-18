@@ -5,14 +5,13 @@ using UnityEngine.UI;
 
 //handles saving
 public class CurrentScore : MonoBehaviour {
-    
     public Text Label;
-
-    private float score;
-    private float closeMultiplier = 1f;
-    private float perDelta = 1;
-    private float perClose = 2;
-    private float perClose2 = 3;
+    private int score;
+    private const float STREAK_RESET = 2.5f; //in secs
+    private const int MAX_POW = 4; //16
+    private int closePow = 1;
+    private int perDelta = 1;
+    private int perClose = 2;
 
     public void addDelta() {
         score+=perDelta;
@@ -20,24 +19,40 @@ public class CurrentScore : MonoBehaviour {
         handleChange();
     }
 
-    public void addClose() {
-        score = score + perClose * closeMultiplier;
+    public void tryAddClose() {
+        print("try add  " + GameController.closeAreas);
+        if (GameController.closeAreas == 0) return;
+        //reset pow reset timer
+        CancelInvoke();
+        score = score + (int)Mathf.Pow(perClose, closePow);
         
+        closePow = Mathf.Min(closePow + 1, MAX_POW);
+
+        Invoke("powReset", STREAK_RESET);
         handleChange();
     }
+    
+    void powReset() {
+        closePow = 1;
+    }
 
-    public void addClose2() {
+    void OnEnable() {
+        GameActions.onJump += tryAddClose;
+    }
+
+    void OnDisable() {
+        GameActions.onJump -= tryAddClose;
+    }
+    
+    public void Clear() {
+        powReset();
+        State.instance.highScore = score;
+        score = 0;
         handleChange();
+        
     }
 
     private void handleChange() {
-        Label.text = Mathf.Round(score).ToString();
-    }
-
-    public void Clear() {
-        State.instance.highScore = (int) Mathf.Round(score);
-        closeMultiplier = 1f;
-        score = 0f;
-        handleChange();
+        Label.text =  score.ToString();
     }
 }    

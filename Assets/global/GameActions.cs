@@ -16,10 +16,15 @@ public class GameActions : MonoBehaviour {
     public static event startDel onStart;
     public static void start() {onStart();}
 
+
     public delegate void newScoreDel(int value);
     public static event newScoreDel onNewScore;
     public static void newScore(int value) {onNewScore(value);}
 
+    public delegate void jumpDel ();
+    public static event jumpDel onJump;
+    public static void jump() {onJump();}
+    
     //making sure the script is not duplicated
     private static GameActions gameActionsInstance;
 

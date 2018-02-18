@@ -24,7 +24,7 @@ public class SpikeGenerator : MonoBehaviour {
     }
     void gen() {
         // print("gen");
-        if (Random.value < 0.4f) side.flip();
+        if (Random.value < 0.6f) side.flip();
         float localSpacing = Random.Range(1f, 1.75f) * betweenSpace;
 
         lastGenY = lastGenY + localSpacing;

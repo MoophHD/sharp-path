@@ -25,7 +25,7 @@ public class Constants : MonoBehaviour {
 	private Vector2 maxCameraBounds;
 
 
-	public float cameraSpeed = 12.5f;
+	public float cameraSpeed = 8f;
 	public float spikeSideOffset = 2.7f;
 	public float screenHeight;
 	public float screenWidth;

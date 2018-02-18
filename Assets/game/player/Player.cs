@@ -9,12 +9,12 @@ public class Player : MonoBehaviour {
     private Rigidbody2D rb;
     private Side side;
 
-    public float downForce = 2.5f;
+    public float downForce = 2f;
 
-    public float upForce = 7.5f;
-    public float sideForce = 25f;
-    public float introUpForce = 7.5f;
-    public float introSideForce = 3f;
+    public float upForce = 8f;
+    public float sideForce = 22.5f;
+    public float introUpForce = 5f;
+    public float introSideForce = 5f;
     public float jumpHeight;
     public float height;
 
@@ -90,6 +90,8 @@ public class Player : MonoBehaviour {
     }
 
     public void jump() {
+        GameActions.jump();
+
         Vector2 upwardsVelocity = Vector2.up * upForce;
                                 // current == left ? jump to right : left
         Vector2 sideVelocity = (side.side == side.left ? Vector2.right : Vector2.left) * sideForce;
