@@ -11,8 +11,8 @@ public class Player : MonoBehaviour {
 
     public float downForce = 2f;
 
-    public float upForce = 8f;
-    public float sideForce = 22.5f;
+    public float upForce = 7f;
+    public float sideForce = 16f;
     public float introUpForce = 5f;
     public float introSideForce = 5f;
     public float jumpHeight;
@@ -39,13 +39,17 @@ public class Player : MonoBehaviour {
     }
 
     void Update() {
-        if (Input.GetMouseButtonDown(0)) {
-            // click on ui
-            if( EventSystem.current.IsPointerOverGameObject() ){
-                return;
-            }
+        
+        if (Input.GetMouseButton(0)) {
+            // click on ui or already jumping
+            if( EventSystem.current.IsPointerOverGameObject()) return;
 
             switch(currentState) {
+                // case(state.Jump): {
+                //     //tap/click hold => add y force
+                //     holdJump();
+                //     break;
+                // };
                 case(state.Idle): {
                     GameActions.start();
                     break;
@@ -65,6 +69,20 @@ public class Player : MonoBehaviour {
 
         }
     }
+
+    public void jump() {
+        GameActions.jump();
+
+        Vector2 upwardsVelocity = Vector2.up * upForce;
+                                // current == left ? jump to right : left
+        Vector2 sideVelocity = (side.side == side.left ? Vector2.right : Vector2.left) * sideForce;
+        currentState = state.Jump;
+        rb.velocity = upwardsVelocity + sideVelocity;
+    }
+
+    // private void holdJump() {
+    //     rb.velocity = rb.velocity + (Vector2.up * Time.deltaTime * upForce);
+    // }
 
     public void reset() {
         currentState = state.Idle;
@@ -89,16 +107,7 @@ public class Player : MonoBehaviour {
         rb.velocity = upwardsVelocity + sideVelocity;
     }
 
-    public void jump() {
-        GameActions.jump();
 
-        Vector2 upwardsVelocity = Vector2.up * upForce;
-                                // current == left ? jump to right : left
-        Vector2 sideVelocity = (side.side == side.left ? Vector2.right : Vector2.left) * sideForce;
-        currentState = state.Jump;
-        rb.velocity = upwardsVelocity + sideVelocity;
-
-    }
     
     // private float lastY = 0f;
     void OnCollisionEnter2D(Collision2D coll) {

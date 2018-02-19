@@ -22,13 +22,25 @@ public class SpikeGenerator : MonoBehaviour {
     public void onStart() {
         InvokeRepeating("gen", 0f, 1f);
     }
+
+    bool lastFlipped = false;
     void gen() {
-        // print("gen");
-        if (Random.value < 0.6f) side.flip();
-        float localSpacing = Random.Range(1f, 1.75f) * betweenSpace;
+        if (Random.value < 0.6f) {
+            side.flip();
+            lastFlipped = true;
+        } else {
+            lastFlipped = false;
+        }
+        float localSpacing = 0f;
+        if (!lastFlipped) {
+            localSpacing = Random.Range(0.75f, 1.35f) * betweenSpace;
+        } else {
+            //has to be slightly less or more than player jump
+            float offset = Random.value < 0.5 ? Random.Range(0.70f, 0.8f) : Random.Range(1.25f, 1.45f);
+            localSpacing = betweenSpace * offset;
+        }
 
         lastGenY = lastGenY + localSpacing;
-        // print("lastGen " + lastGenY);
 
         addSpike(lastGenY);
 

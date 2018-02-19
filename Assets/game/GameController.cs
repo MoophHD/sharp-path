@@ -13,7 +13,10 @@ public class GameController : MonoBehaviour {
     
     private float scoreDelta = 0.5f;
     //score per scoreDelta
+
+    float temp = 0f;
     void addScore() {
+        print(temp += Time.deltaTime);
         currentScore.addDelta();
     }
     void handlePause(bool isPaused) {
@@ -25,19 +28,21 @@ public class GameController : MonoBehaviour {
     }
 
     void restart() {
+        print("restart");
+        CancelInvoke();
         closeAreas = 0;
-        CancelInvoke(); 
-        currentScore.Clear();     
         //play lose animation
         //smooth camera reset pos
         myCamera.reset();
-        myCamera.isMoving =     false;
+        myCamera.isMoving = false;
 
         player.reset();
         spikeGenerator.reset();
     }
 
     void start() {
+        currentScore.Clear();     
+        CancelInvoke();
         InvokeRepeating("addScore", 0f, scoreDelta);
 
         spikeGenerator.onStart();

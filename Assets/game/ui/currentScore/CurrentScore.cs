@@ -8,34 +8,30 @@ public class CurrentScore : MonoBehaviour {
     public Text Label;
     private int score;
     private const float STREAK_RESET = 2.5f; //in secs
-    private const int MAX_POW = 4; //16
-    private int closePow = 1;
+    private const int MAX_MULTIPLIER = 8; //4 6 8 10 12 14 16 20
+    private int multiplier = 1;
     private int perDelta = 1;
     private int perClose = 2;
 
     public void addDelta() {
+        print("delta");
         score+=perDelta;
 
         handleChange();
     }
 
     public void tryAddClose() {
-        print("try add  " + GameController.closeAreas);
         if (GameController.closeAreas == 0) return;
         //reset pow reset timer
         CancelInvoke();
-        score = score + (int)Mathf.Pow(perClose, closePow);
+        score = score + perClose + multiplier * 2;
         
-        closePow = Mathf.Min(closePow + 1, MAX_POW);
+        multiplier = Mathf.Min(multiplier + 1, MAX_MULTIPLIER);
 
-        Invoke("powReset", STREAK_RESET);
+        Invoke("multiplierReset", STREAK_RESET);
         handleChange();
     }
     
-    void powReset() {
-        closePow = 1;
-    }
-
     void OnEnable() {
         GameActions.onJump += tryAddClose;
     }
@@ -45,14 +41,17 @@ public class CurrentScore : MonoBehaviour {
     }
     
     public void Clear() {
-        powReset();
+        multiplierReset();
         State.instance.highScore = score;
         score = 0;
         handleChange();
-        
     }
 
     private void handleChange() {
         Label.text =  score.ToString();
+    }
+
+    void multiplierReset() {
+        multiplier = 1;
     }
 }    

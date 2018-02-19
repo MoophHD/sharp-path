@@ -18,9 +18,6 @@ public class CloseArea : MonoBehaviour {
 	}
 
 	void removeCloseArea() {
-		print(GameController.closeAreas);
-		print("remove");
 		GameController.closeAreas--;
-		print(GameController.closeAreas);
 	}
 }
