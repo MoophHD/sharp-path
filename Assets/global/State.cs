@@ -23,13 +23,15 @@ public class State : MonoBehaviour {
                 //save score somewhere
                 _highScore = value;
                 Label.text = value.ToString();
+                PlayerPrefs.SetInt("highScore", value);
             }
         }
     }
 
     void Awake() {
         //grab from savings
-        _highScore = 0;
+        _highScore = PlayerPrefs.HasKey("highScore") ? PlayerPrefs.GetInt("highScore") : 0;
+
         Label.text = _highScore.ToString();
         
         DontDestroyOnLoad (this);

@@ -14,7 +14,6 @@ public class CurrentScore : MonoBehaviour {
     private int perClose = 2;
 
     public void addDelta() {
-        print("delta");
         score+=perDelta;
 
         handleChange();
