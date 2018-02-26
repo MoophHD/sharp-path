@@ -10,11 +10,15 @@ public class CameraController : MonoBehaviour {
 	private float speed;
 	public bool isMoving = false;
 
+	private float lastAnchor;
+
 	void Awake() {
 		tr = GetComponent<Transform>();
 
 		startPos = tr.position;
 		speed = Constants.instance.cameraSpeed;
+
+		lastAnchor = startPos.y;
 	}
 
 
@@ -22,10 +26,20 @@ public class CameraController : MonoBehaviour {
 		if (isMoving) {
 			Vector3 newPos = new Vector3(transform.position.x, transform.position.y + speed, transform.position.z);
 			transform.position = Vector3.Lerp(transform.position, newPos, smoothSpeed * Time.deltaTime);
+
+			checkDelta();
 		}
 	}
 
 	public void reset() {
 		tr.position = startPos;
 	}
+
+	void checkDelta() {
+		if (transform.position.y - lastAnchor > Constants.instance.screenHeight) {
+			lastAnchor = transform.position.y;
+			GameActions.screenPass();
+		}
+	}
+	
 }

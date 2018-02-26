@@ -25,6 +25,11 @@ public class GameActions : MonoBehaviour {
     public static event jumpDel onJump;
     public static void jump() {onJump();}
     
+    public delegate void screenPassDel ();
+    public static event screenPassDel onScreenPass;
+    public static void screenPass() {onScreenPass();}
+
+
     //making sure the script is not duplicated
     private static GameActions gameActionsInstance;
 

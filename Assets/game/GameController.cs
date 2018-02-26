@@ -9,18 +9,22 @@ public class GameController : MonoBehaviour {
     public GameObject overlay;
     public Player player;
     public CurrentScore currentScore;
-    public static int closeAreas = 0;
     
     private float scoreDelta = 0.5f;
+
+    public static int passedScreens = 3;
     //score per scoreDelta
 
     float temp = 0f;
     void addScore() {
-        print(temp += Time.deltaTime);
         currentScore.addDelta();
     }
     void handlePause(bool isPaused) {
         overlay.SetActive(isPaused);
+    }
+    
+    void handleScreenPass() {
+        passedScreens++;
     }
 
     void Awake() {
@@ -28,9 +32,7 @@ public class GameController : MonoBehaviour {
     }
 
     void restart() {
-        print("restart");
         CancelInvoke();
-        closeAreas = 0;
         //play lose animation
         //smooth camera reset pos
         myCamera.reset();
@@ -56,6 +58,7 @@ public class GameController : MonoBehaviour {
 			};
         GameActions.onRestart += restart;
         GameActions.onStart += start;
+        GameActions.onScreenPass += handleScreenPass;
 	}
     
 	void OnDisable() {
@@ -64,5 +67,6 @@ public class GameController : MonoBehaviour {
 			};
         GameActions.onRestart -= restart;
         GameActions.onStart -= start;
+        GameActions.onScreenPass += handleScreenPass;
 	}
 }

@@ -11,7 +11,18 @@ public class CurrentScore : MonoBehaviour {
     private const int MAX_MULTIPLIER = 8; //4 6 8 10 12 14 16 20
     private int multiplier = 1;
     private int perDelta = 1;
-    private int perClose = 2;
+
+    void handleJump() {
+        //        if (GameController.closeAreas == 0) return;
+        // //reset pow reset timer
+        // CancelInvoke();
+        // score = score + perClose + multiplier * 2;
+        
+        // multiplier = Mathf.Min(multiplier + 1, MAX_MULTIPLIER);
+
+        // Invoke("multiplierReset", STREAK_RESET);
+        // handleChange();
+    }
 
     public void addDelta() {
         score+=perDelta;
@@ -19,26 +30,7 @@ public class CurrentScore : MonoBehaviour {
         handleChange();
     }
 
-    public void tryAddClose() {
-        if (GameController.closeAreas == 0) return;
-        //reset pow reset timer
-        CancelInvoke();
-        score = score + perClose + multiplier * 2;
-        
-        multiplier = Mathf.Min(multiplier + 1, MAX_MULTIPLIER);
 
-        Invoke("multiplierReset", STREAK_RESET);
-        handleChange();
-    }
-    
-    void OnEnable() {
-        GameActions.onJump += tryAddClose;
-    }
-
-    void OnDisable() {
-        GameActions.onJump -= tryAddClose;
-    }
-    
     public void Clear() {
         multiplierReset();
         State.instance.highScore = score;
@@ -52,5 +44,13 @@ public class CurrentScore : MonoBehaviour {
 
     void multiplierReset() {
         multiplier = 1;
+    }
+
+    void OnEnable() {
+        GameActions.onJump += handleJump;
+    }
+
+    void OnDisable() {
+        GameActions.onJump -= handleJump;
     }
 }    

@@ -13,18 +13,36 @@ public class SpikeGenerator : MonoBehaviour {
     private float initialGenY = 4f;
     private float lastGenY;
     public Side side;
+    private float period;
+    private int spikesPerScreen;
+    private int spikeCounter = 0;
 
     void Awake() {
         side = new Side();
         reset();
+        float height = Constants.instance.screenHeight;
+        spikesPerScreen = (int)Mathf.Floor(height / (spikeHeight + betweenSpace));
+        print(spikesPerScreen);
+        float speed = Constants.instance.cameraSpeed;
+
+        period = (height / speed / spikesPerScreen ) * 0.95f;
+        print(period);
     }
 
     public void onStart() {
-        InvokeRepeating("gen", 0f, 1f);
+        InvokeRepeating("tryGen", 0f, period);
+    }
+
+    void tryGen() {
+        if (spikeCounter <= spikesPerScreen * (GameController.passedScreens + 1)) {
+            gen();
+        }
     }
 
     bool lastFlipped = false;
     void gen() {
+        spikeCounter++;
+
         if (Random.value < 0.6f) {
             side.flip();
             lastFlipped = true;
@@ -64,6 +82,7 @@ public class SpikeGenerator : MonoBehaviour {
         CancelInvoke();
 
         lastGenY = initialGenY;
+        spikeCounter = 0;
 
         spikes.Clear();
 
