@@ -6,46 +6,67 @@ using UnityEngine.UI;
 //handles saving
 public class CurrentScore : MonoBehaviour {
     public Text Label;
+    public Text streakLabel;
     private int score;
-    private const float STREAK_RESET = 2.5f; //in secs
+    private float lastJumpTm = -1f;
+    
+    private int perStreak = 15;
+    private int streak = 0;
+    private float streakCooldown = 0f;
+    private const float STREAK_RESET = 0.5f; //in secs
     private const int MAX_MULTIPLIER = 8; //4 6 8 10 12 14 16 20
-    private int multiplier = 1;
     private int perDelta = 1;
 
-    void handleJump() {
-        //        if (GameController.closeAreas == 0) return;
-        // //reset pow reset timer
-        // CancelInvoke();
-        // score = score + perClose + multiplier * 2;
-        
-        // multiplier = Mathf.Min(multiplier + 1, MAX_MULTIPLIER);
 
-        // Invoke("multiplierReset", STREAK_RESET);
-        // handleChange();
+    
+    void LateUpdate() {
+        streakCooldown += Time.deltaTime;
+
+        if (streakCooldown>STREAK_RESET) resetStreak();
     }
+    
+    void handleJump() {
+        print(streakCooldown);
+        if (streakCooldown > STREAK_RESET) {
+            resetStreak();
+        } else {
+            //play animation
+            addStreak();
+            
+        }
 
-    public void addDelta() {
-        score+=perDelta;
+        streakCooldown = 0f;
+    }
+    void addStreak() {
+        streak++;
+        score += (streak ) * perStreak;
 
         handleChange();
     }
 
+    public void addDelta() {
+        score += perDelta;
+
+        handleChange();
+    }
 
     public void Clear() {
-        multiplierReset();
-        State.instance.highScore = score;
         score = 0;
+        
+        resetStreak();
+        handleChange();
+    }
+
+    private void resetStreak() {
+        streak = 0;
         handleChange();
     }
 
     private void handleChange() {
-        Label.text =  score.ToString();
+        Label.text = score.ToString();
+        streakLabel.text = "(+" + (Mathf.Max(streak, 0)) * perStreak + ")";
+        State.instance.highScore = score;
     }
-
-    void multiplierReset() {
-        multiplier = 1;
-    }
-
     void OnEnable() {
         GameActions.onJump += handleJump;
     }

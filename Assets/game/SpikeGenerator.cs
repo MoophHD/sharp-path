@@ -22,11 +22,9 @@ public class SpikeGenerator : MonoBehaviour {
         reset();
         float height = Constants.instance.screenHeight;
         spikesPerScreen = (int)Mathf.Floor(height / (spikeHeight + betweenSpace));
-        print(spikesPerScreen);
         float speed = Constants.instance.cameraSpeed;
 
         period = (height / speed / spikesPerScreen ) * 0.95f;
-        print(period);
     }
 
     public void onStart() {

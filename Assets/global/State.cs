@@ -11,7 +11,7 @@ public class State : MonoBehaviour {
             return _instance;
         }
     }
-    public Text Label;
+    public Text HighScoreLabel;
 
     private int _highScore;
     public int highScore {
@@ -22,7 +22,7 @@ public class State : MonoBehaviour {
             if (value > _highScore) {
                 //save score somewhere
                 _highScore = value;
-                Label.text = value.ToString();
+                HighScoreLabel.text = value.ToString();
                 PlayerPrefs.SetInt("highScore", value);
             }
         }
@@ -32,7 +32,7 @@ public class State : MonoBehaviour {
         //grab from savings
         _highScore = PlayerPrefs.HasKey("highScore") ? PlayerPrefs.GetInt("highScore") : 0;
 
-        Label.text = _highScore.ToString();
+        HighScoreLabel.text = _highScore.ToString();
         
         DontDestroyOnLoad (this);
         if (_instance == null) {
