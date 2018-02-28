@@ -13,8 +13,8 @@ public class Player : MonoBehaviour {
 
     public float upForce = 7f;
     public float sideForce = 16f;
-    public float introUpForce = 5f;
-    public float introSideForce = 5f;
+    public float introUpForce = 7.5f;
+    public float introSideForce = 15f;
     public float jumpHeight;
     public float height;
 
@@ -39,7 +39,6 @@ public class Player : MonoBehaviour {
     }
 
     void Update() {
-        
         if (Input.GetMouseButton(0)) {
             // click on ui or already jumping
             if( EventSystem.current.IsPointerOverGameObject()) return;
@@ -71,6 +70,9 @@ public class Player : MonoBehaviour {
     }
 
     public void jump() {
+        //frozen
+        if (rb.isKinematic) return;
+        
         GameActions.jump();
 
         Vector2 upwardsVelocity = Vector2.up * upForce;
@@ -86,8 +88,9 @@ public class Player : MonoBehaviour {
 
     public void reset() {
         currentState = state.Idle;
-        tr.position = startPos;
         rb.velocity = Vector3.zero;
+        
+        tr.position = startPos;
 
         side = Random.value > 0.5f ? new Side("left") : new Side("right");
     }
@@ -123,4 +126,17 @@ public class Player : MonoBehaviour {
             GameActions.restart();
         }
     }
+
+    public void centerSelf(){
+        rb.velocity = Vector3.zero;
+        //saves y pos
+        tr.position = new Vector3(startPos.x,tr.position.y, tr.position.z);
+        currentState = state.Idle;
+    }
+
+    public void freeze(bool isFrozen) {
+        rb.isKinematic = isFrozen;
+        if (isFrozen) rb.velocity = Vector3.zero;
+    }
+
 }

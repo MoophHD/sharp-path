@@ -28,9 +28,22 @@ public class State : MonoBehaviour {
         }
     }
 
+    private int _runs;
+    public int runs {
+        get {
+            return _runs;
+        }
+        set {
+            _runs = value;
+            PlayerPrefs.SetInt("runs", value);
+        }
+    }
+
+
     void Awake() {
         //grab from savings
         _highScore = PlayerPrefs.HasKey("highScore") ? PlayerPrefs.GetInt("highScore") : 0;
+        _runs = PlayerPrefs.HasKey("runs") ? PlayerPrefs.GetInt("runs") : 0;
 
         HighScoreLabel.text = _highScore.ToString();
         

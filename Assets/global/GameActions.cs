@@ -29,6 +29,14 @@ public class GameActions : MonoBehaviour {
     public static event screenPassDel onScreenPass;
     public static void screenPass() {onScreenPass();}
 
+    public delegate void secondChanceDel ();
+    public static event secondChanceDel onSecondChance;
+    public static void secondChance() {onSecondChance();}
+
+    public delegate void deathDel ();
+    public static event deathDel onDeath;
+    public static void death() {onDeath();}
+
 
     //making sure the script is not duplicated
     private static GameActions gameActionsInstance;

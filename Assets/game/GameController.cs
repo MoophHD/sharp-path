@@ -9,6 +9,8 @@ public class GameController : MonoBehaviour {
     public GameObject overlay;
     public Player player;
     public CurrentScore currentScore;
+    public GameObject secondChanceContainer;
+    public SecondChance mySecondChance;
     
     private float scoreDelta = 0.5f;
 
@@ -29,20 +31,47 @@ public class GameController : MonoBehaviour {
 
     void Awake() {
         spikeGenerator.playerHeight = player.height;
+        mySecondChance = secondChanceContainer.GetComponent<SecondChance>();
     }
 
     void restart() {
-        CancelInvoke();
+        //try 2nd chance
+        State.instance.runs++;
         //play lose animation
         //smooth camera reset pos
         myCamera.reset();
-        myCamera.isMoving = false;
 
         player.reset();
         spikeGenerator.reset();
+
+        mySecondChance.cancelTimer();
+        secondChanceContainer.SetActive(false);
+    }
+
+    void handleDeath() {
+        CancelInvoke();
+
+        myCamera.isMoving = false;
+        player.freeze(true);
+
+        Invoke("unfoldSecondChanceMenu", .75f);
+    }
+
+    void unfoldSecondChanceMenu() {
+        secondChanceContainer.SetActive(true);
+
+        mySecondChance.setTimer();
+    }
+
+    void secondChance() {
+        spikeGenerator.deleteLastSpikes();
+        player.centerSelf();
+        secondChanceContainer.SetActive(false);
     }
 
     void start() {
+        player.freeze(false);
+        
         currentScore.Clear();     
         CancelInvoke();
         InvokeRepeating("addScore", 0f, scoreDelta);
@@ -59,14 +88,18 @@ public class GameController : MonoBehaviour {
         GameActions.onRestart += restart;
         GameActions.onStart += start;
         GameActions.onScreenPass += handleScreenPass;
+        GameActions.onSecondChance += secondChance;
+        GameActions.onDeath += handleDeath;
 	}
     
 	void OnDisable() {
-		GameActions.onPause += (bool paused) => { 
+		GameActions.onPause -= (bool paused) => { 
                 handlePause(paused);
 			};
         GameActions.onRestart -= restart;
         GameActions.onStart -= start;
-        GameActions.onScreenPass += handleScreenPass;
+        GameActions.onScreenPass -= handleScreenPass;
+        GameActions.onSecondChance -= secondChance;
+        GameActions.onDeath -= handleDeath;
 	}
 }

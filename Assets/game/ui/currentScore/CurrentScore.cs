@@ -24,22 +24,19 @@ public class CurrentScore : MonoBehaviour {
 
         if (streakCooldown>STREAK_RESET) resetStreak();
     }
-    
     void handleJump() {
-        print(streakCooldown);
         if (streakCooldown > STREAK_RESET) {
             resetStreak();
         } else {
             //play animation
             addStreak();
-            
         }
 
         streakCooldown = 0f;
     }
     void addStreak() {
         streak++;
-        score += (streak ) * perStreak;
+        score += streak * perStreak;
 
         handleChange();
     }
