@@ -30,7 +30,6 @@ public class SecondChance : MonoBehaviour {
 
     void tick() {
         if(time < 1 && !ads.playingAd) {
-            print("restart");
             GameActions.restart();
             CancelInvoke();
             time = 4;

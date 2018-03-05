@@ -3,8 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class Constants : MonoBehaviour {
-
-
 	private static Constants _instance;
 	public static Constants instance {
         get {
@@ -26,9 +24,11 @@ public class Constants : MonoBehaviour {
 
 
 	public float cameraSpeed = 8f;
-	public float spikeSideOffset = 2.7f;
+	public float spikeSideOffset = 2.7025f;
 	public float screenHeight;
 	public float screenWidth;
+
+	public int maxStreak = 6;
 
 	void Awake() {
 		minCameraBounds = Camera.main.ScreenToWorldPoint(new Vector3(0f, 0f, 0f));

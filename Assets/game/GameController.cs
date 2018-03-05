@@ -15,9 +15,8 @@ public class GameController : MonoBehaviour {
     private float scoreDelta = 0.5f;
 
     public static int passedScreens = 3;
+    int secondChanceScore = -1;
     //score per scoreDelta
-
-    float temp = 0f;
     void addScore() {
         currentScore.addDelta();
     }
@@ -46,6 +45,8 @@ public class GameController : MonoBehaviour {
 
         mySecondChance.cancelTimer();
         secondChanceContainer.SetActive(false);
+
+        secondChanceScore = 0;
     }
 
     void handleDeath() {
@@ -64,15 +65,19 @@ public class GameController : MonoBehaviour {
     }
 
     void secondChance() {
-        spikeGenerator.deleteLastSpikes();
         player.centerSelf();
+        Vector3 cameraPos = myCamera.pos;
+        myCamera.pos = new Vector3(cameraPos.x, player.pos.y + 3.5f,cameraPos.z);
+        spikeGenerator.resetInMiddle(myCamera.pos.y + 2.5f);
         secondChanceContainer.SetActive(false);
+
+        secondChanceScore = currentScore.scoreGetter;
     }
 
     void start() {
         player.freeze(false);
-        
-        currentScore.Clear();     
+        currentScore.Clear(secondChanceScore);     
+
         CancelInvoke();
         InvokeRepeating("addScore", 0f, scoreDelta);
 

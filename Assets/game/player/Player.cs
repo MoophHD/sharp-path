@@ -12,8 +12,8 @@ public class Player : MonoBehaviour {
     public float downForce = 2f;
 
     public float upForce = 7f;
-    public float sideForce = 16f;
-    public float introUpForce = 7.5f;
+    public float sideForce = 14f;
+    public float introUpForce = 9f;
     public float introSideForce = 15f;
     public float jumpHeight;
     public float height;
@@ -82,10 +82,6 @@ public class Player : MonoBehaviour {
         rb.velocity = upwardsVelocity + sideVelocity;
     }
 
-    // private void holdJump() {
-    //     rb.velocity = rb.velocity + (Vector2.up * Time.deltaTime * upForce);
-    // }
-
     public void reset() {
         currentState = state.Idle;
         rb.velocity = Vector3.zero;
@@ -109,9 +105,6 @@ public class Player : MonoBehaviour {
 
         rb.velocity = upwardsVelocity + sideVelocity;
     }
-
-
-    
     // private float lastY = 0f;
     void OnCollisionEnter2D(Collision2D coll) {
         string tag = coll.gameObject.tag;
@@ -122,8 +115,8 @@ public class Player : MonoBehaviour {
             ) {
                 sit();
             }
-        } else if (tag == "pod") {
-            GameActions.restart();
+        } else if (tag == "pod" || tag == "spike") {
+            GameActions.death();
         }
     }
 
@@ -137,6 +130,12 @@ public class Player : MonoBehaviour {
     public void freeze(bool isFrozen) {
         rb.isKinematic = isFrozen;
         if (isFrozen) rb.velocity = Vector3.zero;
+    }
+
+    public Vector3 pos {
+        get {
+            return tr.position;
+        }
     }
 
 }

@@ -24,7 +24,7 @@ GameObject:
   - component: {fileID: 114217586744633020}
   m_Layer: 0
   m_Name: spike
-  m_TagString: Untagged
+  m_TagString: spike
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -36,7 +36,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1595312679606524}
   m_LocalRotation: {x: 0, y: 0, z: 0.7071068, w: 0.7071068}
-  m_LocalPosition: {x: 0.058383882, y: -3.1156797, z: 0}
+  m_LocalPosition: {x: 2.2864103, y: 112.59454, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -66,11 +66,11 @@ PolygonCollider2D:
   m_AutoTiling: 0
   m_Points:
     m_Paths:
-    - - {x: 0.058279518, y: -0.030340683}
-      - {x: 0.000983961, y: 0.070436485}
-      - {x: -0.10517573, y: -0.091099754}
-      - {x: -0.11430657, y: -0.10588713}
-      - {x: 0.10220575, y: -0.10547975}
+    - - {x: 0.05014527, y: -0.03949071}
+      - {x: -0.0020703045, y: 0.06026984}
+      - {x: -0.093989275, y: -0.09109997}
+      - {x: -0.102106966, y: -0.105887175}
+      - {x: 0.080861196, y: -0.10547974}
 --- !u!114 &114217586744633020
 MonoBehaviour:
   m_ObjectHideFlags: 1

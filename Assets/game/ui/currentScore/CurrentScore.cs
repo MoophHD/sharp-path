@@ -8,16 +8,17 @@ public class CurrentScore : MonoBehaviour {
     public Text Label;
     public Text streakLabel;
     private int score;
-    private float lastJumpTm = -1f;
-    
     private int perStreak = 15;
     private int streak = 0;
     private float streakCooldown = 0f;
     private const float STREAK_RESET = 0.5f; //in secs
-    private const int MAX_MULTIPLIER = 8; //4 6 8 10 12 14 16 20
     private int perDelta = 1;
 
+    public TrailController trail;
 
+    void Awake() {
+        DontDestroyOnLoad(this);
+    }
     
     void LateUpdate() {
         streakCooldown += Time.deltaTime;
@@ -37,7 +38,8 @@ public class CurrentScore : MonoBehaviour {
     void addStreak() {
         streak++;
         score += streak * perStreak;
-
+        trail.addStreak();
+        trail.streak = streak;
         handleChange();
     }
 
@@ -47,14 +49,15 @@ public class CurrentScore : MonoBehaviour {
         handleChange();
     }
 
-    public void Clear() {
-        score = 0;
+    public void Clear(int startScore) {
+        score = startScore;
         
         resetStreak();
         handleChange();
     }
 
     private void resetStreak() {
+        trail.clearStreak();
         streak = 0;
         handleChange();
     }
@@ -62,13 +65,18 @@ public class CurrentScore : MonoBehaviour {
     private void handleChange() {
         Label.text = score.ToString();
         streakLabel.text = "(+" + (Mathf.Max(streak, 0)) * perStreak + ")";
-        State.instance.highScore = score;
+        if (State.instance) State.instance.highScore = score;
     }
     void OnEnable() {
         GameActions.onJump += handleJump;
     }
-
     void OnDisable() {
         GameActions.onJump -= handleJump;
+    }
+
+    public int scoreGetter {
+        get {
+            return score;
+        }
     }
 }    

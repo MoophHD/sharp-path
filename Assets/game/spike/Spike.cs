@@ -18,10 +18,4 @@ public class Spike : MonoBehaviour {
             tr.eulerAngles = new Vector3(rot.x, rot.y, -rot.z);
         }
     }
-    void OnCollisionEnter2D(Collision2D coll) {
-        if (coll.gameObject.tag == "player") {
-            GameActions.death();
-            // GameActions.restart();
-        }
-    }
 }

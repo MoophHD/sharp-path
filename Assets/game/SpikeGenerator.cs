@@ -16,7 +16,6 @@ public class SpikeGenerator : MonoBehaviour {
     private float period;
     private int spikesPerScreen;
     private int spikeCounter = 0;
-    private int secondChanceDeleteSpikes;
 
     void Awake() {
         side = new Side();
@@ -26,8 +25,6 @@ public class SpikeGenerator : MonoBehaviour {
         float speed = Constants.instance.cameraSpeed;
 
         period = (height / speed / spikesPerScreen ) * 0.95f;
-
-        secondChanceDeleteSpikes = spikesPerScreen;
     }
 
     public void onStart() {
@@ -92,10 +89,14 @@ public class SpikeGenerator : MonoBehaviour {
         children.ForEach(child => Destroy(child));
     }
 
-    public void deleteLastSpikes() {
-        for (int i = 0; i < secondChanceDeleteSpikes; i++) {
-            Destroy(spikes[0]);
-            spikes.RemoveAt(0);
-        }
+    public void resetInMiddle(float genFrom) {
+        lastGenY = genFrom;
+        spikeCounter = 0;
+
+        tryGen();
+
+        var children = new List<GameObject>();
+        foreach (Transform child in container) children.Add(child.gameObject);
+        children.ForEach(child => Destroy(child));
     }
 }

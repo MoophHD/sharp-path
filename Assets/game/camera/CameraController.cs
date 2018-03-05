@@ -41,5 +41,14 @@ public class CameraController : MonoBehaviour {
 			GameActions.screenPass();
 		}
 	}
+
+	public Vector3 pos {
+		get {
+			return tr.position;
+		}
+		set {
+			tr.position = value;
+		}
+	}
 	
 }
