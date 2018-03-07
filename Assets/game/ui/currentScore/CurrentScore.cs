@@ -15,15 +15,10 @@ public class CurrentScore : MonoBehaviour {
     private int perDelta = 1;
 
     public TrailController trail;
-
-    void Awake() {
-        DontDestroyOnLoad(this);
-    }
-    
     void LateUpdate() {
         streakCooldown += Time.deltaTime;
 
-        if (streakCooldown>STREAK_RESET) resetStreak();
+        if (streakCooldown>STREAK_RESET && streak != 0) resetStreak();
     }
     void handleJump() {
         if (streakCooldown > STREAK_RESET) {
@@ -37,6 +32,7 @@ public class CurrentScore : MonoBehaviour {
     }
     void addStreak() {
         streak++;
+        Debug.Log("streak " + streak);
         score += streak * perStreak;
         trail.addStreak();
         trail.streak = streak;
@@ -57,7 +53,7 @@ public class CurrentScore : MonoBehaviour {
     }
 
     private void resetStreak() {
-        trail.clearStreak();
+        if (trail) trail.clearStreak();
         streak = 0;
         handleChange();
     }

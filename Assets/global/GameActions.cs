@@ -36,18 +36,5 @@ public class GameActions : MonoBehaviour {
     public delegate void deathDel ();
     public static event deathDel onDeath;
     public static void death() {onDeath();}
-
-
-    //making sure the script is not duplicated
-    private static GameActions gameActionsInstance;
-
-	void Awake() {
-        DontDestroyOnLoad (this);
-        if (gameActionsInstance == null) {
-            gameActionsInstance = this;
-        } else {
-            DestroyObject(gameObject);
-        }
-	}
 }
 

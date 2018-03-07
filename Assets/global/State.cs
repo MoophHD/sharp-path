@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 //handles saving
 public class State : MonoBehaviour {
@@ -21,7 +22,9 @@ public class State : MonoBehaviour {
         set {
             if (value > _highScore) {
                 //save score somewhere
+            Debug.Log("prefs " + PlayerPrefs.GetInt("highScore"));
                 _highScore = value;
+            Debug.Log("hscore label " + HighScoreLabel);
                 HighScoreLabel.text = value.ToString();
                 PlayerPrefs.SetInt("highScore", value);
             }
@@ -39,19 +42,42 @@ public class State : MonoBehaviour {
         }
     }
 
+    public bool isGameLoaded;
+
+    void handleSceneLoad(Scene scene, LoadSceneMode mode) {
+        if (scene.buildIndex == 0) {
+            HighScoreLabel = GameObject.Find("HighScore").GetComponent<Text>();
+
+            
+            _highScore = PlayerPrefs.HasKey("highScore") ? PlayerPrefs.GetInt("highScore") : 0;
+            _runs = PlayerPrefs.HasKey("runs") ? PlayerPrefs.GetInt("runs") : 0;
+            
+            HighScoreLabel.text = _highScore.ToString();
+
+            isGameLoaded = true;
+        }
+
+    
+    }
+
+    void Start() {
+        SceneManager.LoadScene(0);
+
+        SceneManager.sceneLoaded += handleSceneLoad;
+
+    }
+
+
 
     void Awake() {
-        //grab from savings
-        _highScore = PlayerPrefs.HasKey("highScore") ? PlayerPrefs.GetInt("highScore") : 0;
-        _runs = PlayerPrefs.HasKey("runs") ? PlayerPrefs.GetInt("runs") : 0;
+        isGameLoaded = false;
 
-        HighScoreLabel.text = _highScore.ToString();
-        
-        DontDestroyOnLoad (this);
-        if (_instance == null) {
-            _instance = this;
-        } else {
-            DestroyObject(gameObject);
+        if (Application.isEditor)  {
+            PlayerPrefs.DeleteAll();
         }
+
+     if (_instance == null) {
+            _instance = this;
+        } 
 	}
 }

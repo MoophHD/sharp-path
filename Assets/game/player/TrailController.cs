@@ -6,7 +6,7 @@ using UnityEngine.EventSystems;
 public class TrailController : MonoBehaviour {
     int maxStreak;
     float startWidth = 0.05f;
-    float widthPerStreak = 0.01f;
+    float widthPerStreak = 0.005f;
 
     Color startColor = new Color(0f, 0f, 49/255f);
     Color finColor = new Color(1f, 100/255f, 100/255f);

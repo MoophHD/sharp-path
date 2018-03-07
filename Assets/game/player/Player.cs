@@ -9,14 +9,15 @@ public class Player : MonoBehaviour {
     private Rigidbody2D rb;
     private Side side;
 
-    public float downForce = 2f;
+    private float downForce = 2.5f;
 
-    public float upForce = 7f;
-    public float sideForce = 14f;
-    public float introUpForce = 9f;
-    public float introSideForce = 15f;
+    private float upForce = 7.5f;
+    private float sideForce = 25f;
+    private float introUpForce = 12f;
+    private float introSideForce = 8f;
     public float jumpHeight;
     public float height;
+    public Vector3 lastFreezePos;
 
   	private enum state {
         Idle,
@@ -40,16 +41,19 @@ public class Player : MonoBehaviour {
 
     void Update() {
         if (Input.GetMouseButton(0)) {
+            if (!State.instance.isGameLoaded) return;
             // click on ui or already jumping
-            if( EventSystem.current.IsPointerOverGameObject()) return;
+            if( IsPointerOverUIObject() ) return;
+            //ad is currntly playing
+
+            if( AdManager.instance.playingAd ) return;
 
             switch(currentState) {
-                // case(state.Jump): {
-                //     //tap/click hold => add y force
-                //     holdJump();
-                //     break;
-                // };
+                case(state.Jump): {
+                    break;
+                }
                 case(state.Idle): {
+                    currentState = state.Jump;
                     GameActions.start();
                     break;
                 };
@@ -123,11 +127,12 @@ public class Player : MonoBehaviour {
     public void centerSelf(){
         rb.velocity = Vector3.zero;
         //saves y pos
-        tr.position = new Vector3(startPos.x,tr.position.y, tr.position.z);
+        tr.position = new Vector3(startPos.x, lastFreezePos.y, tr.position.z);
         currentState = state.Idle;
     }
 
     public void freeze(bool isFrozen) {
+        lastFreezePos = tr.position;
         rb.isKinematic = isFrozen;
         if (isFrozen) rb.velocity = Vector3.zero;
     }
@@ -136,6 +141,17 @@ public class Player : MonoBehaviour {
         get {
             return tr.position;
         }
+        set {
+            tr.position = value;
+        }
     }
+
+    private bool IsPointerOverUIObject() {
+     PointerEventData eventDataCurrentPosition = new PointerEventData(EventSystem.current);
+     eventDataCurrentPosition.position = new Vector2(Input.mousePosition.x, Input.mousePosition.y);
+     List<RaycastResult> results = new List<RaycastResult>();
+     EventSystem.current.RaycastAll(eventDataCurrentPosition, results);
+     return results.Count > 0;
+ }
 
 }

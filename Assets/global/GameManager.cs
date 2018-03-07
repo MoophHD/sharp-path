@@ -6,15 +6,6 @@ public class GameManager : MonoBehaviour {
 	private static GameManager _instance;
 	public static GameManager instance {
         get {
-            if (_instance == null) {
-				//finds/creates container for all the global stuff 
-                GameObject go = GameObject.Find("global");
-                if (go == null)
-                    go = new GameObject("global");
-                go.AddComponent<GameManager>();
-                
-            }
-
             return _instance;
         }
 	}
@@ -65,11 +56,6 @@ public class GameManager : MonoBehaviour {
 	}
 
 	void Awake() {
-        DontDestroyOnLoad(transform.gameObject);
-
-		if (_instance == null)
-			_instance = this;
-		else
-			Destroy(gameObject);
+		_instance = this;
 	}
 }

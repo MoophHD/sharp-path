@@ -11,6 +11,8 @@ public class GameController : MonoBehaviour {
     public CurrentScore currentScore;
     public GameObject secondChanceContainer;
     public SecondChance mySecondChance;
+
+    private bool usedSecondChance = false;
     
     private float scoreDelta = 0.5f;
 
@@ -45,17 +47,22 @@ public class GameController : MonoBehaviour {
 
         mySecondChance.cancelTimer();
         secondChanceContainer.SetActive(false);
-
-        secondChanceScore = 0;
     }
 
     void handleDeath() {
+
+
         CancelInvoke();
 
         myCamera.isMoving = false;
         player.freeze(true);
 
-        Invoke("unfoldSecondChanceMenu", .75f);
+        if (usedSecondChance) {
+            usedSecondChance = false;
+            Invoke("restart", .25f);
+        } else {
+            Invoke("unfoldSecondChanceMenu", .25f);
+        }
     }
 
     void unfoldSecondChanceMenu() {
@@ -65,19 +72,25 @@ public class GameController : MonoBehaviour {
     }
 
     void secondChance() {
+        Debug.Log("adRewarded");
+        
+        secondChanceScore = currentScore.scoreGetter;
+
+        usedSecondChance = true;
+
         player.centerSelf();
+
         Vector3 cameraPos = myCamera.pos;
         myCamera.pos = new Vector3(cameraPos.x, player.pos.y + 3.5f,cameraPos.z);
         spikeGenerator.resetInMiddle(myCamera.pos.y + 2.5f);
         secondChanceContainer.SetActive(false);
-
-        secondChanceScore = currentScore.scoreGetter;
     }
 
     void start() {
         player.freeze(false);
+        Debug.Log("secondChanceScore " + secondChanceScore);
         currentScore.Clear(secondChanceScore);     
-
+        secondChanceScore = -1;
         CancelInvoke();
         InvokeRepeating("addScore", 0f, scoreDelta);
 

@@ -9,6 +9,8 @@ TagManager:
   - player
   - blur
   - spike
+  - pause
+  - global
   layers:
   - Default
   - TransparentFX

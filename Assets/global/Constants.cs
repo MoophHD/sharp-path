@@ -36,6 +36,8 @@ public class Constants : MonoBehaviour {
 		screenHeight = maxCameraBounds.y - minCameraBounds.y;
 		screenWidth = maxCameraBounds.x - minCameraBounds.x;
 		
+
+		DontDestroyOnLoad(gameObject);
 		if (_instance == null)
 			_instance = this;
 		else
